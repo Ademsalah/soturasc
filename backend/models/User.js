@@ -1,38 +1,41 @@
-
-
 module.exports = (sequelize, DataTypes) => {
-    const User = sequelize.define('User', {
-        id: {
-            type: DataTypes.INTEGER,
-            autoIncrement: true,
-            primaryKey: true
+  const User = sequelize.define(
+    "User",
+    {
+      id: {
+        type: DataTypes.INTEGER,
+        autoIncrement: true,
+        primaryKey: true,
+      },
+      username: {
+        type: DataTypes.STRING,
+        allowNull: false,
+        unique: true,
+      },
+      email: {
+        type: DataTypes.STRING,
+        allowNull: false,
+        unique: true,
+        validate: {
+          isEmail: true,
         },
-        username: {
-            type: DataTypes.STRING,
-            allowNull: false,
-            unique: true
-        },
-        email: {
-            type: DataTypes.STRING,
-            allowNull: false,
-            unique: true,
-            validate: {
-                isEmail: true
-            }
+      },
+      password: {
+        type: DataTypes.STRING,
+        allowNull: false,
+      },
+      role: {
+        type: DataTypes.ENUM("user", "admin"),
+        defaultValue: "user",
+      },
+    },
+    {
+      timestamps: true,
+    }
+  );
+  User.associate = (models) => {
+    User.hasMany(models.Panier, { foreignKey: "userId", as: "panier" });
+  };
 
-        },
-        password: {
-            type: DataTypes.STRING,
-            allowNull: false
-        },
-        role: {
-            type: DataTypes.ENUM('user', 'admin'),
-            defaultValue: 'user'
-        }
-    }, {
-        timestamps: true
-    });
-    return User
-}
-
-
+  return User;
+};
