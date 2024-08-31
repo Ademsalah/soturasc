@@ -18,7 +18,7 @@ sequelize.authenticate()
         console.error("Unable to connect to the database:", err);
     });
 
-// sequelize.sync({ force: false })  
+// sequelize.sync({ force: true })  
 //     .then(() => {
 //         console.log('Database & tables created!');
 //     })
